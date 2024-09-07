@@ -1,0 +1,94 @@
+Step 1: Install WSL 2 (if not already installed)
+Enable WSL and install a Linux distribution like Ubuntu:
+
+wsl --install
+
+
+If you already have WSL1, you can upgrade to WSL2:
+
+wsl --set-version <distro-name> 2
+
+Ensure your system has WSL 2 enabled by setting WSL2 as your default version:
+
+wsl --set-default-version 2
+
+
+
+
+Step 2: Install Docker Desktop for Windows
+Download Docker Desktop:
+
+Visit the Docker Desktop download page and install Docker Desktop for Windows.
+Install Docker Desktop:
+
+Run the installer and follow the instructions.
+During installation, enable the option for "Use WSL 2 instead of Hyper-V" and ensure "Install required components for WSL 2" is checked.
+Enable WSL 2 in Docker Desktop:
+
+Open Docker Desktop and go to Settings → General.
+Ensure Use the WSL 2 based engine is checked.
+Select your WSL 2 Distro:
+
+Go to Settings → Resources → WSL Integration.
+Enable Docker integration with the WSL 2 distro (e.g., Ubuntu).
+
+
+
+Step 3: Install Docker within WSL
+Open WSL (Ubuntu or any other distro you use):
+
+Open Ubuntu or the WSL terminal.
+Install Docker dependencies: Update your package lists:
+
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+
+
+Add Docker’s official GPG key:
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+
+Add the Docker repository:
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+
+Install Docker: Update your package list and install Docker:
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io
+
+
+Start Docker service: Start the Docker service inside WSL:
+sudo service docker start
+
+
+
+Step 4: Test the Docker Installation
+
+Verify Docker version: Run the following command to check if Docker is installed correctly:
+
+docker --version
+
+
+Step 5: SonarQube pull and port creation
+
+Pull the SonarQube Docker Image:
+docker pull sonarqube
+
+Run SonarQube in Docker:
+docker run -d --name sonarqube -p 9000:9000 sonarqube
+
+Step 5: SonarScanner pull 
+
+
+Pull the SonarScanner Docker Image:
+docker pull sonarsource/sonar-scanner-cli
+
+List all containers:
+Use the following command to list all containers (both running and stopped) along with their container IDs:
+docker ps -a
+
+
+
+execution
+
+ docker run --rm   -e SONAR_HOST_URL="http://172.23.188.198:9009"   -v "/home/mithun/Sonarqube/Project_1:/usr/src"   sonarsource/sonar-scanner-cli   -Dsonar.projectKey=sample   -Dsonar.token=sqp_efcce256b4b6ff1155ffa1a4e51586ba5cabcca5   -Dsonar.sources=.
